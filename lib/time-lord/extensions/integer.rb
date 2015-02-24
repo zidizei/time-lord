@@ -13,4 +13,12 @@ class Integer
   def from_now
     TimeLord::Time.new(Time.now + self).period
   end
+
+  def from(other)
+    TimeLord::Time.new(other + self).period
+  end
+
+  def to(other)
+    TimeLord::Time.new(other - self).period
+  end
 end

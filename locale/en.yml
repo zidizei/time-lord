@@ -1,0 +1,26 @@
+en:
+  time:
+    just_now : "less than a second away"
+    past     : "%s ago"
+    future   : "%s from now"
+    second:
+      plural   : "seconds"
+      singular : "second"
+    minute:
+      plural   : "minutes"
+      singular : "minute"
+    hour:
+      plural   : "hours"
+      singular : "hour"
+    day:
+      plural   : "days"
+      singular : "day"
+    week:
+      plural   : "weeks"
+      singular : "week"
+    month:
+      plural   : "months"
+      singular : "month"
+    year:
+      plural   : "years"
+      singular : "year"

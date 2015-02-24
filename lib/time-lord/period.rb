@@ -1,5 +1,7 @@
 module TimeLord
   class Period
+    include Words
+
     attr_writer :beginning, :ending
 
     def initialize(beginning, ending)
@@ -8,7 +10,7 @@ module TimeLord
     end
 
     def to_words
-      value.zero? ? "less than a second away" : "#{value} #{unit} #{tense}"
+      value.zero? ? just_now : sprintf(tense, "#{value} #{unit}")
     end
     alias_method :in_words, :to_words
 
@@ -48,7 +50,7 @@ module TimeLord
     end
 
     def tense
-      if difference <= 0 then "ago" else "from now" end
+      if difference <= 0 then past else future end
     end
   end
 end

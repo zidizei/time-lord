@@ -1,6 +1,7 @@
 module TimeLord
   class Scale
     include Units
+    include Words
 
     attr_accessor :absolute
 
@@ -20,19 +21,20 @@ module TimeLord
 
     def timemap
       case absolute
-      when 0               then [absolute, "seconds"]
-      when SECOND...MINUTE then [absolute, pluralized_word("second", plurality?(absolute)) || "second"]
-      when MINUTE...HOUR   then as(MINUTE, "minute")
-      when HOUR...DAY      then as(HOUR, "hour")
-      when DAY...WEEK      then as(DAY, "day")
-      when WEEK...MONTH    then as(WEEK, "week")
-      when MONTH...YEAR    then as(MONTH, "month")
-      else                      as(YEAR, "year")
+      when 0               then as(SECOND, :second)
+      when SECOND...MINUTE then as(SECOND, :second)
+      when MINUTE...HOUR   then as(MINUTE, :minute)
+      when HOUR...DAY      then as(HOUR, :hour)
+      when DAY...WEEK      then as(DAY, :day)
+      when WEEK...MONTH    then as(WEEK, :week)
+      when MONTH...YEAR    then as(MONTH, :month)
+      else                      as(YEAR, :year)
       end
     end
 
     def as(unit, word)
-      [count(unit), pluralized_word(word, plurality?(count(unit))) || word]
+      self.absolute = count(unit)
+      [self.absolute, self.send(word)]
     end
 
     def count(unit)
