@@ -1,13 +1,12 @@
 require 'i18n'
 
 module TimeLord
-  def self.locale=(locale)
+  def self.use_locale=(locale)
     @locale = locale
-    I18n.available_locales += [locale]
   end
 
-  def self.locale
-    @locale || :en
+  def self.use_locale?
+    (@locale.nil?) ? true : @locale == true
   end
 
   module Words
@@ -16,10 +15,14 @@ module TimeLord
 
     [:second, :minute, :hour, :day, :week, :month, :year].each do |word|
       define_method(word) do
-        begin
-          I18n.t self.plurality, :scope => "time.#{word}", :raise => true
-        rescue I18n::MissingTranslationData => e
-          I18n.t word, :scope => "time"
+        if TimeLord.use_locale?
+          begin
+            I18n.t self.plurality, :scope => "time.#{word}", :raise => true
+          rescue I18n::MissingTranslationData => e
+            I18n.t word, :scope => "time"
+          end
+        else
+          "#{pluralized_word(word.to_s, plurality?(self.absolute))}"
         end
       end
     end
@@ -36,8 +39,17 @@ module TimeLord
       I18n.t 'future', :scope => "time"
     end
 
+    def pluralized_word(word, plural)
+      word += "s" if plural
+      word
+    end
+
     def plurality
       (self.absolute > 1 || self.absolute.zero?) ? 'plural' : 'singular'
+    end
+
+    def plurality?(count)
+      count > 1 || count.zero?
     end
   end
 end

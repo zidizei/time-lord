@@ -40,13 +40,5 @@ module TimeLord
     def count(unit)
       absolute / unit
     end
-
-    def pluralized_word(word, plural)
-      word += "s" if plural
-    end
-
-    def plurality?(count)
-      count > 1 || count.zero?
-    end
   end
 end
