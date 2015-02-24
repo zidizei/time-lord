@@ -1,12 +1,22 @@
 require 'i18n'
 
 module TimeLord
+  def self.locale=(locale)
+    @locale = locale
+    I18n.available_locales += [locale]
+  end
+
+  def self.locale
+    @locale || :en
+  end
+
   module Words
     I18n.load_path         += [File.join(File.expand_path('../../..', __FILE__), 'locale', 'en.yml')]
     I18n.available_locales += [:en]
 
     [:second, :minute, :hour, :day, :week, :month, :year].each do |word|
       define_method(word) do
+        I18n.locale = TimeLord.locale
         begin
           I18n.t self.plurality, :scope => "time.#{word}", :raise => true
         rescue I18n::MissingTranslationData => e
