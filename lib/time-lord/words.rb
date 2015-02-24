@@ -28,15 +28,27 @@ module TimeLord
     end
 
     def just_now
-      I18n.t 'just_now', :scope => "time"
+      if TimeLord.use_locale?
+        I18n.t 'just_now', :scope => "time"
+      else
+        'less than a second away'
+      end
     end
 
     def past
-      I18n.t 'past', :scope => "time"
+      if TimeLord.use_locale?
+        I18n.t 'past', :scope => "time"
+      else
+        '%s ago'
+      end
     end
 
     def future
-      I18n.t 'future', :scope => "time"
+      if TimeLord.use_locale?
+        I18n.t 'future', :scope => "time"
+      else
+        '%s from now'
+      end
     end
 
     def pluralized_word(word, plural)
