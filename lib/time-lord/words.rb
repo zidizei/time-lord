@@ -16,7 +16,6 @@ module TimeLord
 
     [:second, :minute, :hour, :day, :week, :month, :year].each do |word|
       define_method(word) do
-        I18n.locale = TimeLord.locale
         begin
           I18n.t self.plurality, :scope => "time.#{word}", :raise => true
         rescue I18n::MissingTranslationData => e
